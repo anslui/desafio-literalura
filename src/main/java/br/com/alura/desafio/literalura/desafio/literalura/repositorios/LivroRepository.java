@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface LivroRepository extends JpaRepository<Livro, Long> {
     Optional<Livro> findByTituloIgnoreCase(String titulo);
     List<Optional<Livro>> findByIdiomaIgnoreCase(String idioma);
+    List<Livro> findTop10ByOrderByQuantidadeDownloadsDesc();
 
     @Query("SELECT DISTINCT l.idioma FROM Livro l")
     List<String> buscarIdiomasDisponiveis();
