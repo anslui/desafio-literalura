@@ -18,7 +18,7 @@ public class Principal {
     private ConsumoApi buscaApi = new ConsumoApi();
     private ConverteDados conversor = new ConverteDados();
 
-    private final String ENDERECO = "https://gutendex.com/";
+    private final String ENDERECO = "https://gutendex.com/books/?search=";
     private Locale local = Locale.of("pt", "BR");
 
     private LivroRepository livroRepositorio;
@@ -34,17 +34,19 @@ public class Principal {
         while (opcao != 0){
             var menu = """
                     
-                    ____________DESAFIO LITERALURA____________
-                    Digite um número correspondente à opção desejada.
+                    __________ MENU DESAFIO LITERALURA ________
                     
                     ( 1 ) Cadastrar livro pelo título
                     ( 2 ) Listar livros registrados
                     ( 3 ) Listar autores registrados
                     ( 4 ) Listar autores vivos em determinado ano
                     ( 5 ) Listar livros em um determinado idioma
+                    ( 6 ) Top 10 livros mais baixados
+                    ( 7 ) Buscar autor por nome
                     
-                    0 - Sair
+                    ( 0 ) Sair
                     -------------------------------------------
+                    Digite o número da opção desejada:
                     """;
 
             System.out.println(menu);
@@ -52,7 +54,7 @@ public class Principal {
                 opcao = leitura.nextInt();
                 leitura.nextLine();
             } catch (InputMismatchException e){
-                System.out.println("\nCaractere inválido. Digite um número correspondente ao menu.");
+                System.out.println("\nCaractere inválido. Digite um número correspondente ao menu.\n");
                 leitura.nextLine();
                 continue;
             }
@@ -72,6 +74,12 @@ public class Principal {
                 case 5:
                     listarLivrosPorIdioma();
                     break;
+                case 6:
+                    listarTop10Downloads();
+                    break;
+                case 7:
+                    buscarAutorPorNome();
+                    break;
                 case 0:
                     System.out.println("\nEncerrando...\n");
                     break;
@@ -82,9 +90,26 @@ public class Principal {
     }
 }
 
+    private void listarTop10Downloads() {
+        List<Livro> livros = livroRepositorio.findTop10ByOrderByQuantidadeDownloadsDesc();
+        livros.forEach(this::exibirLivro);
+    }
+
+    private void buscarAutorPorNome() {
+        System.out.println("Digite o nome do autor:");
+        String nome = leitura.nextLine().trim();
+        List<Optional<Autor>> autor = autorRepositorio.findByNomeContainingIgnoreCase(nome);
+        if (autor.isEmpty()){
+            System.out.println("\nAutor não encontrado no banco de dados.");
+        } else {
+            autor.forEach(a -> {
+                a.ifPresent(this::exibirAutor);
+            });
+        }
+    }
 
     private void listarAutoresVivos() {
-        System.out.println("\nDigite o ano que deseja buscar:");
+        System.out.println("Digite o ano que deseja buscar:");
         try {
             var ano = leitura.nextInt();
             List<Optional<Autor>> autoresVivos = autorRepositorio.buscarAutoresVivos(ano);
@@ -94,7 +119,7 @@ public class Principal {
                 autoresVivos.stream().map(Optional::get).forEach(this::exibirAutor);
             }
         } catch (InputMismatchException e) {
-            System.out.println("Caractere inválido.");
+            System.out.println("\nCaractere inválido.\n");
             leitura.nextLine();
         }
     }
@@ -126,12 +151,12 @@ public class Principal {
 
     private void exibirAutor(Autor a) {
         System.out.printf("""
-                        ________________________
-                         Autor: [%s] (Id: %d)
+                        ___________________AUTOR___________________
+                         Autor: %s (Id: %d)
                          Ano de nascimento: %d
                          Ano de falecimento: %d
                          Livros: %s
-                        ------------------------
+                        -------------------------------------------
                         """,
                 a.getNome(), a.getId(), a.getAnoDeNascimento(), a.getAnoDeFalecimento(), a.getLivros()
                         .stream().map(Livro::getTitulo).collect(Collectors.toList()));
@@ -149,19 +174,19 @@ public class Principal {
     private void exibirLivro(Livro l){
         String nomeIdioma = Locale.of(l.getIdioma()).getDisplayLanguage(local);
         System.out.printf("""
-                ________________LIVRO_____________
+                __________________ LIVRO __________________
                  Título: %s
                  Autor: %s
                  Idioma: %s
                  Número de downloads: %d
-                ----------------------------------
+                -------------------------------------------
                 """,
                 l.getTitulo(), l.getAutor().getNome(), nomeIdioma.substring(0, 1).toUpperCase() + nomeIdioma.substring(1),
                 l.getQuantidadeDownloads());
     }
 
     private void cadastrarLivroPeloTitulo(){
-        System.out.println("\nDigite o título do livro:");
+        System.out.println("Digite o título do livro:");
         String titulo = leitura.nextLine().trim();
         if (titulo.isEmpty()){
             System.out.println("\nTítulo não pode estar em branco.\n");
@@ -169,11 +194,10 @@ public class Principal {
         }
         try {
             var tituloEncoded = URLEncoder.encode(titulo, StandardCharsets.UTF_8);
-            String endereco = ENDERECO + "books/?search=" + tituloEncoded;
-            System.out.println(endereco);
+            String endereco = ENDERECO + tituloEncoded;
+
             var json = buscaApi.obterDados(endereco);
             DadosResultados dadosResultados = conversor.converteDados(json, DadosResultados.class);
-
 
             DadosLivro dadosLivro = dadosResultados.results().getFirst();
             if (livroRepositorio.findByTituloIgnoreCase(dadosLivro.title()).isPresent()){
@@ -181,17 +205,17 @@ public class Principal {
                 return;
             }
             DadosAutor dadosAutor = dadosLivro.authors().getFirst();
-            Autor autor = autorRepositorio.findByNomeContainingIgnoreCase(dadosAutor.name())
+            Autor autor = autorRepositorio.findByNomeIgnoreCase(dadosAutor.name())
                     .orElseGet(() -> autorRepositorio.save(new Autor(dadosAutor)));
 
             Livro livro = new Livro(dadosLivro);
             livro.setAutor(autor);
             livroRepositorio.save(livro);
 
+            System.out.println("\nLivro cadastrado com sucesso!\n");
             exibirLivro(livro);
         } catch (NoSuchElementException e){
             System.out.println("\nLivro não encontrado.\n");
         }
     }
-
 }
