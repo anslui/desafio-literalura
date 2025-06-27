@@ -102,9 +102,7 @@ public class Principal {
         if (autor.isEmpty()){
             System.out.println("\nAutor não encontrado no banco de dados.");
         } else {
-            autor.forEach(a -> {
-                a.ifPresent(this::exibirAutor);
-            });
+            autor.forEach(a -> a.ifPresent(this::exibirAutor));
         }
     }
 
