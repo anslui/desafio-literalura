@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d4068522-c677-4cfc-8748-474f6db7beaf" />
+</p>
 # Desafio LiterAlura
 
 *Projeto desenvolvido durante o curso [ONE - Oracle Next Education](https://www.oracle.com/br/education/oracle-next-education/ "ONE - Oracle Next Education").*
