@@ -1,4 +1,4 @@
-package br.com.alura.desafio.literalura.desafio.literalura;
+package br.com.alura.desafio.literalura;
 
 import java.io.IOException;
 import java.net.URI;

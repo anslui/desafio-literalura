@@ -1,7 +1,7 @@
-package br.com.alura.desafio.literalura.desafio.literalura;
+package br.com.alura.desafio.literalura;
 
-import br.com.alura.desafio.literalura.desafio.literalura.repositorios.AutorRepository;
-import br.com.alura.desafio.literalura.desafio.literalura.repositorios.LivroRepository;
+import br.com.alura.desafio.literalura.repositorios.AutorRepository;
+import br.com.alura.desafio.literalura.repositorios.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

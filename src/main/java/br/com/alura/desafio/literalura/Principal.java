@@ -1,12 +1,12 @@
-package br.com.alura.desafio.literalura.desafio.literalura;
+package br.com.alura.desafio.literalura;
 
-import br.com.alura.desafio.literalura.desafio.literalura.dados.DadosAutor;
-import br.com.alura.desafio.literalura.desafio.literalura.dados.DadosLivro;
-import br.com.alura.desafio.literalura.desafio.literalura.dados.DadosResultados;
-import br.com.alura.desafio.literalura.desafio.literalura.modelos.Autor;
-import br.com.alura.desafio.literalura.desafio.literalura.modelos.Livro;
-import br.com.alura.desafio.literalura.desafio.literalura.repositorios.AutorRepository;
-import br.com.alura.desafio.literalura.desafio.literalura.repositorios.LivroRepository;
+import br.com.alura.desafio.literalura.dados.DadosAutor;
+import br.com.alura.desafio.literalura.dados.DadosLivro;
+import br.com.alura.desafio.literalura.dados.DadosResultados;
+import br.com.alura.desafio.literalura.modelos.Autor;
+import br.com.alura.desafio.literalura.modelos.Livro;
+import br.com.alura.desafio.literalura.repositorios.AutorRepository;
+import br.com.alura.desafio.literalura.repositorios.LivroRepository;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;

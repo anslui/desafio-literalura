@@ -1,5 +1,5 @@
-package br.com.alura.desafio.literalura.desafio.literalura.modelos;
-import br.com.alura.desafio.literalura.desafio.literalura.dados.DadosLivro;
+package br.com.alura.desafio.literalura.modelos;
+import br.com.alura.desafio.literalura.dados.DadosLivro;
 import jakarta.persistence.*;
 
 @Entity
@@ -33,10 +33,6 @@ public class Livro {
 
     public void setAutor(Autor autor) {
         this.autor = autor;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getTitulo() {

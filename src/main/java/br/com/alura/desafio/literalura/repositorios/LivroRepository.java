@@ -1,5 +1,5 @@
-package br.com.alura.desafio.literalura.desafio.literalura.repositorios;
-import br.com.alura.desafio.literalura.desafio.literalura.modelos.Livro;
+package br.com.alura.desafio.literalura.repositorios;
+import br.com.alura.desafio.literalura.modelos.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

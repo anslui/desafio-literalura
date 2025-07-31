@@ -1,5 +1,5 @@
-package br.com.alura.desafio.literalura.desafio.literalura.modelos;
-import br.com.alura.desafio.literalura.desafio.literalura.dados.DadosAutor;
+package br.com.alura.desafio.literalura.modelos;
+import br.com.alura.desafio.literalura.dados.DadosAutor;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +27,6 @@ public class Autor {
         this.nome = dadosAutor.name();
         this.anoDeNascimento = dadosAutor.birthYear();
         this.anoDeFalecimento = dadosAutor.deathYear();
-    }
-
-    public void setLivros(List<Livro> livros) {
-        this.livros = livros;
     }
 
     public Long getId() {

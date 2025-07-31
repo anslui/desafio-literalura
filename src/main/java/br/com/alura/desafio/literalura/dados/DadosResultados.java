@@ -1,4 +1,4 @@
-package br.com.alura.desafio.literalura.desafio.literalura.dados;
+package br.com.alura.desafio.literalura.dados;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

@@ -1,4 +1,4 @@
-package br.com.alura.desafio.literalura.desafio.literalura;
+package br.com.alura.desafio.literalura;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
